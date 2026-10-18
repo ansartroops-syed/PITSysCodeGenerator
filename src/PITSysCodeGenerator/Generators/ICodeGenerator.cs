@@ -1,0 +1,1 @@
+﻿namespace PITSysCodeGenerator.Generators { public interface ICodeGenerator { string Generate(PITSysCodeGenerator.Models.GeneratorOptions o); string GetFileName(PITSysCodeGenerator.Models.GeneratorOptions o); } }

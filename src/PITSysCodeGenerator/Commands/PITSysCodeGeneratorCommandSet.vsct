@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <Extern href="stdidcmd.h" />
+  <Extern href="vsshlids.h" />
+
+  <Commands package="guidPITSysCodeGeneratorPackage">
+    <Groups>
+      <Group guid="guidPITSysCodeGeneratorCmdSet" id="PITMenuGroup" priority="0x0600">
+        <Parent guid="guidSHLMainMenu" id="IDM_VS_MENU_TOOLS" />
+      </Group>
+    </Groups>
+
+    <Buttons>
+      <Button guid="guidPITSysCodeGeneratorCmdSet" id="cmdidGenerateCode" priority="0x0100" type="Button">
+        <Parent guid="guidPITSysCodeGeneratorCmdSet" id="PITMenuGroup" />
+        <Strings>
+          <ButtonText>PIT SysOperation Code Generator</ButtonText>
+        </Strings>
+      </Button>
+    </Buttons>
+  </Commands>
+
+  <Symbols>
+    <GuidSymbol name="guidPITSysCodeGeneratorPackage" value="{C3D4E5F6-A7B8-9012-CDEF-123456789ABC}" />
+    <GuidSymbol name="guidPITSysCodeGeneratorCmdSet" value="{D4E5F6A7-B8C9-0123-DEF0-1234567890AB}">
+      <IDSymbol name="PITMenuGroup" value="0x1020" />
+      <IDSymbol name="cmdidGenerateCode" value="0x0100" />
+    </GuidSymbol>
+  </Symbols>
+
+</CommandTable>

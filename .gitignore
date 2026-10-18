@@ -1,0 +1,34 @@
+## Visual Studio
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.dll
+*.exe
+*.pdb
+
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+## NuGet
+packages/
+*.nupkg
+
+## VSIX
+*.vsix
+
+## OS Files
+Thumbs.db
+.DS_Store
+
+## Rider
+.idea/
+
+## NCrunch
+*.ncrunch*
+_NCrunch_*

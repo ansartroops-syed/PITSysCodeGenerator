@@ -1,0 +1,17 @@
+###############################################################################
+# Set default behavior to automatically normalize line endings.
+###############################################################################
+* text=auto
+
+*.cs text diff=csharp
+*.xaml text
+*.xml text
+*.json text
+*.md text
+*.sln text eol=crlf
+*.csproj text eol=crlf
+*.vsct text eol=crlf
+*.vsixmanifest text eol=crlf
+
+*.png binary
+*.ico binary

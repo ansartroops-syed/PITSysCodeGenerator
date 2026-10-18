@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011"
+                 xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="PITSysCodeGenerator.{B2C3D4E5-F6A7-8901-BCDE-F12345678901}" 
+              Version="1.0.0" 
+              Language="en-US" 
+              Publisher="PITSolutions" />
+    <DisplayName>PIT SysOperation Code Generator for D365FO</DisplayName>
+    <Description xml:space="preserve">Generates SysOperation Framework classes (Contract, Service, Controller, DataProvider, UIBuilder) for Microsoft Dynamics 365 Finance &amp; Operations. Follows best practices and D365FO naming conventions with PIT prefix.</Description>
+    <MoreInfo>https://github.com/YourUsername/PITSysCodeGenerator</MoreInfo>
+    <License>LICENSE</License>
+    <GettingStartedGuide>https://github.com/YourUsername/PITSysCodeGenerator#usage</GettingStartedGuide>
+    <ReleaseNotes>https://github.com/YourUsername/PITSysCodeGenerator/blob/main/CHANGELOG.md</ReleaseNotes>
+    <Icon>Resources\PITIcon.png</Icon>
+    <PreviewImage>Resources\PITPreview.png</PreviewImage>
+    <Tags>D365, D365FO, Dynamics 365, SysOperation, X++, Code Generator, Finance Operations</Tags>
+    <Categories>
+      <Category>Tools</Category>
+    </Categories>
+  </Metadata>
+  <Installation>
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0, 18.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Professional" Version="[17.0, 18.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Enterprise" Version="[17.0, 18.0)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+  </Installation>
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" 
+                d:Source="Manual" Version="[4.8,)" />
+  </Dependencies>
+  <Prerequisites>
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" 
+                  Version="[17.0,18.0)" 
+                  DisplayName="Visual Studio core editor" />
+  </Prerequisites>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" 
+           Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+    <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" 
+           Path="|%CurrentProject%|" />
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="File" Path="Commands\PITSysCodeGeneratorCommandSet.vsct" />
+  </Assets>
+</PackageManifest>

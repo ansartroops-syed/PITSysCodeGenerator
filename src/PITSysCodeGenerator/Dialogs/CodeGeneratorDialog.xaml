@@ -1,405 +1,86 @@
-<Window x:Class="PITSysCodeGenerator.Dialogs.CodeGeneratorDialog"
+﻿<Window x:Class="PITSysCodeGenerator.Dialogs.CodeGeneratorDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:PITSysCodeGenerator.Dialogs"
-        xmlns:models="clr-namespace:PITSysCodeGenerator.Models"
-        Title="PIT SysOperation Code Generator for D365FO"
-        Width="920" Height="780"
-        MinWidth="800" MinHeight="650"
-        WindowStartupLocation="CenterScreen"
-        ResizeMode="CanResizeWithGrip"
-        Background="#FF1E1E2E">
+        Title="PIT SysOperation Code Generator"
+        Width="700" Height="600"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-    <Window.Resources>
-        <!-- Color scheme inspired by VS Dark theme -->
-        <SolidColorBrush x:Key="PrimaryBg" Color="#FF1E1E2E"/>
-        <SolidColorBrush x:Key="SecondaryBg" Color="#FF2D2D44"/>
-        <SolidColorBrush x:Key="AccentColor" Color="#FF007ACC"/>
-        <SolidColorBrush x:Key="AccentHover" Color="#FF1C97EA"/>
-        <SolidColorBrush x:Key="TextPrimary" Color="#FFDCDCDC"/>
-        <SolidColorBrush x:Key="TextSecondary" Color="#FF9B9B9B"/>
-        <SolidColorBrush x:Key="BorderColor" Color="#FF3F3F5A"/>
-        <SolidColorBrush x:Key="InputBg" Color="#FF252537"/>
-        <SolidColorBrush x:Key="SuccessColor" Color="#FF4EC9B0"/>
-        <SolidColorBrush x:Key="ErrorColor" Color="#FFFF6B6B"/>
+        <TextBlock Grid.Row="0" Text="PIT SysOperation Code Generator for D365FO"
+                   FontSize="16" FontWeight="Bold" Margin="0,0,0,10"/>
 
-        <!-- TextBox Style -->
-        <Style x:Key="DarkTextBox" TargetType="TextBox">
-            <Setter Property="Background" Value="{StaticResource InputBg}"/>
-            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="8,6"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="FontFamily" Value="Cascadia Code, Consolas, Courier New"/>
-        </Style>
+        <Grid Grid.Row="1" Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <!-- CheckBox Style -->
-        <Style x:Key="DarkCheckBox" TargetType="CheckBox">
-            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Margin" Value="0,4"/>
-        </Style>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Prefix:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="1" x:Name="txtPrefix" Text="PIT"/>
 
-        <!-- Button Style -->
-        <Style x:Key="AccentButton" TargetType="Button">
-            <Setter Property="Background" Value="{StaticResource AccentColor}"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="20,10"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                                CornerRadius="4" 
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{StaticResource AccentHover}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <TextBlock Grid.Row="0" Grid.Column="3" Text="Class Name:" VerticalAlignment="Center"/>
+            <TextBox Grid.Row="0" Grid.Column="4" x:Name="txtClassName" Text="SampleBatchJob"/>
 
-        <Style x:Key="SecondaryButton" TargetType="Button">
-            <Setter Property="Background" Value="{StaticResource SecondaryBg}"/>
-            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
-            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Padding" Value="14,8"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="4" 
-                                Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{StaticResource AccentColor}"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Caption:" VerticalAlignment="Center" Margin="0,5,0,0"/>
+            <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" x:Name="txtCaption" Text="Sample Batch Job" Margin="0,5,0,0"/>
 
-        <!-- GroupBox Style -->
-        <Style x:Key="DarkGroupBox" TargetType="GroupBox">
-            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Foreground" Value="{StaticResource AccentColor}"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Margin" Value="0,0,0,10"/>
-        </Style>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Output:" VerticalAlignment="Center" Margin="0,5,0,0"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" x:Name="txtOutput" Margin="0,5,0,0"/>
+            <Button Grid.Row="2" Grid.Column="4" Content="Browse..." Click="Browse_Click" Margin="0,5,0,0" HorizontalAlignment="Left" Padding="10,3"/>
+        </Grid>
 
-        <!-- Label Style -->
-        <Style x:Key="FieldLabel" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="Margin" Value="0,0,0,4"/>
-        </Style>
-    </Window.Resources>
+        <GroupBox Grid.Row="2" Header="Generate Classes" Margin="0,0,0,10">
+            <WrapPanel Margin="5">
+                <CheckBox x:Name="chkContract" Content="Contract" IsChecked="True" Margin="0,0,15,5"/>
+                <CheckBox x:Name="chkService" Content="Service" IsChecked="True" Margin="0,0,15,5"/>
+                <CheckBox x:Name="chkController" Content="Controller" IsChecked="True" Margin="0,0,15,5"/>
+                <CheckBox x:Name="chkDP" Content="DataProvider" Margin="0,0,15,5"/>
+                <CheckBox x:Name="chkUI" Content="UIBuilder" Margin="0,0,15,5"/>
+                <CheckBox x:Name="chkMenu" Content="MenuItem" Margin="0,0,15,5"/>
+            </WrapPanel>
+        </GroupBox>
 
-    <Grid>
-        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20">
-            <StackPanel>
-
-                <!-- Title Bar -->
-                <StackPanel Margin="0,0,0,20">
-                    <TextBlock Text="⚡ PIT SysOperation Code Generator" 
-                               FontSize="22" FontWeight="Bold"
-                               Foreground="{StaticResource AccentColor}"/>
-                    <TextBlock Text="Generate SysOperation Framework classes for Dynamics 365 Finance &amp; Operations"
-                               Foreground="{StaticResource TextSecondary}" FontSize="12" Margin="0,4,0,0"/>
+        <GroupBox Grid.Row="3" Header="Contract Fields">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,5">
+                    <TextBlock Text="Name:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <TextBox x:Name="txtFieldName" Width="120" Margin="0,0,10,0"/>
+                    <TextBlock Text="Type:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <TextBox x:Name="txtFieldType" Width="120" Margin="0,0,10,0"/>
+                    <TextBlock Text="Label:" VerticalAlignment="Center" Margin="0,0,5,0"/>
+                    <TextBox x:Name="txtFieldLabel" Width="120" Margin="0,0,10,0"/>
+                    <Button Content="Add" Click="AddField_Click" Padding="10,3"/>
+                    <Button Content="Remove" Click="RemoveField_Click" Padding="10,3" Margin="5,0,0,0"/>
                 </StackPanel>
+                <ListBox Grid.Row="1" x:Name="lstFields" DisplayMemberPath="FieldName"/>
+            </Grid>
+        </GroupBox>
 
-                <!-- Base Configuration -->
-                <GroupBox Header="📋 Base Configuration" Style="{StaticResource DarkGroupBox}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="20"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="4" x:Name="txtStatus" Text="Ready" Foreground="Green" Margin="0,5,0,5"/>
 
-                        <!-- Prefix -->
-                        <StackPanel Grid.Row="0" Grid.Column="0" Margin="0,0,0,10">
-                            <TextBlock Text="Prefix" Style="{StaticResource FieldLabel}"/>
-                            <TextBox x:Name="txtPrefix" Style="{StaticResource DarkTextBox}" 
-                                     Text="{Binding Prefix, UpdateSourceTrigger=PropertyChanged}"/>
-                        </StackPanel>
-
-                        <!-- Base Class Name -->
-                        <StackPanel Grid.Row="0" Grid.Column="2" Margin="0,0,0,10">
-                            <TextBlock Text="Base Class Name (without prefix)" Style="{StaticResource FieldLabel}"/>
-                            <TextBox x:Name="txtBaseClassName" Style="{StaticResource DarkTextBox}" 
-                                     Text="{Binding BaseClassName, UpdateSourceTrigger=PropertyChanged}"/>
-                        </StackPanel>
-
-                        <!-- Description -->
-                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,0,10">
-                            <TextBlock Text="Description" Style="{StaticResource FieldLabel}"/>
-                            <TextBox Style="{StaticResource DarkTextBox}" 
-                                     Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
-                        </StackPanel>
-
-                        <!-- Batch Job Caption -->
-                        <StackPanel Grid.Row="1" Grid.Column="2" Margin="0,0,0,10">
-                            <TextBlock Text="Batch Job Caption" Style="{StaticResource FieldLabel}"/>
-                            <TextBox Style="{StaticResource DarkTextBox}" 
-                                     Text="{Binding BatchJobCaption, UpdateSourceTrigger=PropertyChanged}"/>
-                        </StackPanel>
-
-                        <!-- Preview Names -->
-                        <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,5,0,0">
-                            <TextBlock Text="Preview:" Foreground="{StaticResource TextSecondary}" FontSize="11"/>
-                            <WrapPanel Margin="0,4,0,0">
-                                <TextBlock Foreground="{StaticResource SuccessColor}" FontSize="11" Margin="0,0,15,0"
-                                           FontFamily="Cascadia Code, Consolas">
-                                    <Run Text="Contract: "/><Run Text="{Binding PreviewContractName}" FontWeight="Bold"/>
-                                </TextBlock>
-                                <TextBlock Foreground="{StaticResource SuccessColor}" FontSize="11" Margin="0,0,15,0"
-                                           FontFamily="Cascadia Code, Consolas">
-                                    <Run Text="Service: "/><Run Text="{Binding PreviewServiceName}" FontWeight="Bold"/>
-                                </TextBlock>
-                                <TextBlock Foreground="{StaticResource SuccessColor}" FontSize="11"
-                                           FontFamily="Cascadia Code, Consolas">
-                                    <Run Text="Controller: "/><Run Text="{Binding PreviewControllerName}" FontWeight="Bold"/>
-                                </TextBlock>
-                            </WrapPanel>
-                        </StackPanel>
-                    </Grid>
-                </GroupBox>
-
-                <!-- Pattern Selection -->
-                <GroupBox Header="🎯 SysOperation Pattern" Style="{StaticResource DarkGroupBox}">
-                    <WrapPanel>
-                        <RadioButton Content="Standard (Contract + Service + Controller)" 
-                                     IsChecked="True" Foreground="{StaticResource TextPrimary}" 
-                                     Margin="0,0,20,8" FontSize="12"
-                                     Checked="PatternStandard_Checked"/>
-                        <RadioButton Content="Report Data Provider (RDP)" 
-                                     Foreground="{StaticResource TextPrimary}" 
-                                     Margin="0,0,20,8" FontSize="12"
-                                     Checked="PatternRDP_Checked"/>
-                        <RadioButton Content="Custom UI Builder" 
-                                     Foreground="{StaticResource TextPrimary}" 
-                                     Margin="0,0,20,8" FontSize="12"
-                                     Checked="PatternUIBuilder_Checked"/>
-                        <RadioButton Content="Full (All Classes)" 
-                                     Foreground="{StaticResource TextPrimary}" 
-                                     Margin="0,0,20,8" FontSize="12"
-                                     Checked="PatternFull_Checked"/>
-                    </WrapPanel>
-                </GroupBox>
-
-                <!-- Classes to Generate -->
-                <GroupBox Header="📦 Classes to Generate" Style="{StaticResource DarkGroupBox}">
-                    <WrapPanel>
-                        <CheckBox Content="Contract" Style="{StaticResource DarkCheckBox}" 
-                                  IsChecked="{Binding GenerateContract}" Margin="0,0,20,0"/>
-                        <CheckBox Content="Service" Style="{StaticResource DarkCheckBox}" 
-                                  IsChecked="{Binding GenerateService}" Margin="0,0,20,0"/>
-                        <CheckBox Content="Controller" Style="{StaticResource DarkCheckBox}" 
-                                  IsChecked="{Binding GenerateController}" Margin="0,0,20,0"/>
-                        <CheckBox Content="DataProvider (RDP)" Style="{StaticResource DarkCheckBox}" 
-                                  IsChecked="{Binding GenerateDataProvider}" Margin="0,0,20,0"/>
-                        <CheckBox Content="UI Builder" Style="{StaticResource DarkCheckBox}" 
-                                  IsChecked="{Binding GenerateUIBuilder}" Margin="0,0,20,0"/>
-                        <CheckBox Content="Menu Item" Style="{StaticResource DarkCheckBox}" 
-                                  IsChecked="{Binding GenerateMenuItem}" Margin="0,0,20,0"/>
-                        <CheckBox Content="Enable Batch" Style="{StaticResource DarkCheckBox}" 
-                                  IsChecked="{Binding EnableBatch}" Margin="0,0,20,0"/>
-                    </WrapPanel>
-                </GroupBox>
-
-                <!-- Contract Fields -->
-                <GroupBox Header="📝 Contract Fields (Data Members)" Style="{StaticResource DarkGroupBox}">
-                    <StackPanel>
-                        <!-- Add Field Row -->
-                        <Grid Margin="0,0,0,10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="10"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-
-                            <StackPanel Grid.Column="0">
-                                <TextBlock Text="Field Name (camelCase)" Style="{StaticResource FieldLabel}"/>
-                                <TextBox x:Name="txtNewFieldName" Style="{StaticResource DarkTextBox}" 
-                                         Text="" ToolTip="e.g., custAccount"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="2">
-                                <TextBlock Text="EDT / Type" Style="{StaticResource FieldLabel}"/>
-                                <TextBox x:Name="txtNewFieldType" Style="{StaticResource DarkTextBox}" 
-                                         Text="" ToolTip="e.g., CustAccount, TransDate, str"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="4">
-                                <TextBlock Text="Label" Style="{StaticResource FieldLabel}"/>
-                                <TextBox x:Name="txtNewFieldLabel" Style="{StaticResource DarkTextBox}" 
-                                         Text="" ToolTip="e.g., Customer account"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="6" VerticalAlignment="Bottom">
-                                <CheckBox x:Name="chkNewFieldMandatory" Content="Mandatory" 
-                                          Style="{StaticResource DarkCheckBox}" Margin="0,0,0,6"/>
-                            </StackPanel>
-                            <StackPanel Grid.Column="8" VerticalAlignment="Bottom">
-                                <Button Content="➕ Add Field" Style="{StaticResource SecondaryButton}" 
-                                        Click="AddField_Click"/>
-                            </StackPanel>
-                        </Grid>
-
-                        <!-- Fields DataGrid -->
-                        <DataGrid x:Name="dgFields" AutoGenerateColumns="False"
-                                  ItemsSource="{Binding Fields}"
-                                  Background="{StaticResource InputBg}"
-                                  Foreground="{StaticResource TextPrimary}"
-                                  BorderBrush="{StaticResource BorderColor}"
-                                  GridLinesVisibility="Horizontal"
-                                  HorizontalGridLinesBrush="{StaticResource BorderColor}"
-                                  RowBackground="{StaticResource InputBg}"
-                                  AlternatingRowBackground="{StaticResource SecondaryBg}"
-                                  HeadersVisibility="Column"
-                                  CanUserAddRows="False"
-                                  MaxHeight="200"
-                                  FontSize="12"
-                                  FontFamily="Cascadia Code, Consolas, Courier New">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Field Name" Binding="{Binding FieldName}" Width="*"
-                                                    Foreground="{StaticResource TextPrimary}"/>
-                                <DataGridTextColumn Header="EDT/Type" Binding="{Binding EdtType}" Width="*"
-                                                    Foreground="{StaticResource TextPrimary}"/>
-                                <DataGridTextColumn Header="Label" Binding="{Binding Label}" Width="*"
-                                                    Foreground="{StaticResource TextPrimary}"/>
-                                <DataGridCheckBoxColumn Header="Mandatory" Binding="{Binding IsMandatory}" Width="80"/>
-                                <DataGridTextColumn Header="Group" Binding="{Binding GroupName}" Width="100"
-                                                    Foreground="{StaticResource TextPrimary}"/>
-                                <DataGridTextColumn Header="Order" Binding="{Binding DisplayOrder}" Width="60"
-                                                    Foreground="{StaticResource TextPrimary}"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-
-                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                            <Button Content="🗑️ Remove Selected" Style="{StaticResource SecondaryButton}" 
-                                    Click="RemoveField_Click" Margin="0,0,10,0"/>
-                            <Button Content="🧹 Clear All" Style="{StaticResource SecondaryButton}" 
-                                    Click="ClearFields_Click" Margin="0,0,10,0"/>
-                            <Button Content="📋 Add Sample Fields" Style="{StaticResource SecondaryButton}" 
-                                    Click="AddSampleFields_Click"/>
-                        </StackPanel>
-                    </StackPanel>
-                </GroupBox>
-
-                <!-- Output Configuration -->
-                <GroupBox Header="📁 Output" Style="{StaticResource DarkGroupBox}">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="10"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBox x:Name="txtOutputDirectory" Grid.Column="0" Style="{StaticResource DarkTextBox}"
-                                 Text="{Binding OutputDirectory, UpdateSourceTrigger=PropertyChanged}"/>
-                        <Button Grid.Column="2" Content="Browse..." Style="{StaticResource SecondaryButton}" 
-                                Click="Browse_Click"/>
-                    </Grid>
-                </GroupBox>
-
-                <!-- Action Buttons -->
-                <Grid Margin="0,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="10"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <!-- Status -->
-                    <TextBlock x:Name="txtStatus" Grid.Column="0" 
-                               Foreground="{StaticResource SuccessColor}" 
-                               VerticalAlignment="Center" FontSize="12"/>
-
-                    <Button Grid.Column="1" Content="📄 Preview" Style="{StaticResource SecondaryButton}" 
-                            Click="Preview_Click"/>
-                    <Button Grid.Column="3" Content="⚡ Generate All" Style="{StaticResource AccentButton}" 
-                            Click="Generate_Click"/>
-                    <Button Grid.Column="5" Content="✖ Close" Style="{StaticResource SecondaryButton}" 
-                            Click="Close_Click"/>
-                </Grid>
-
-                <!-- Preview Output -->
-                <GroupBox x:Name="grpPreview" Header="👁️ Code Preview" 
-                          Style="{StaticResource DarkGroupBox}" Margin="0,15,0,0"
-                          Visibility="Collapsed">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,8">
-                            <Button x:Name="btnPreviewContract" Content="Contract" 
-                                    Style="{StaticResource SecondaryButton}" 
-                                    Click="PreviewTab_Click" Tag="Contract" Margin="0,0,5,0"/>
-                            <Button x:Name="btnPreviewService" Content="Service" 
-                                    Style="{StaticResource SecondaryButton}" 
-                                    Click="PreviewTab_Click" Tag="Service" Margin="0,0,5,0"/>
-                            <Button x:Name="btnPreviewController" Content="Controller" 
-                                    Style="{StaticResource SecondaryButton}" 
-                                    Click="PreviewTab_Click" Tag="Controller" Margin="0,0,5,0"/>
-                            <Button x:Name="btnPreviewDP" Content="DataProvider" 
-                                    Style="{StaticResource SecondaryButton}" 
-                                    Click="PreviewTab_Click" Tag="DataProvider" Margin="0,0,5,0"/>
-                            <Button x:Name="btnPreviewUIBuilder" Content="UIBuilder" 
-                                    Style="{StaticResource SecondaryButton}" 
-                                    Click="PreviewTab_Click" Tag="UIBuilder" Margin="0,0,5,0"/>
-                            <Button x:Name="btnPreviewMenuItem" Content="MenuItem" 
-                                    Style="{StaticResource SecondaryButton}" 
-                                    Click="PreviewTab_Click" Tag="MenuItem" Margin="0,0,5,0"/>
-                            <Button Content="📋 Copy to Clipboard" Style="{StaticResource SecondaryButton}" 
-                                    Click="CopyPreview_Click" Margin="15,0,0,0"/>
-                        </StackPanel>
-                        <TextBox x:Name="txtPreview" Grid.Row="1" 
-                                 Style="{StaticResource DarkTextBox}"
-                                 IsReadOnly="True" AcceptsReturn="True" 
-                                 VerticalScrollBarVisibility="Auto"
-                                 HorizontalScrollBarVisibility="Auto"
-                                 TextWrapping="NoWrap"
-                                 MinHeight="250" MaxHeight="400"
-                                 FontSize="12"
-                                 FontFamily="Cascadia Code, Consolas, Courier New"/>
-                    </Grid>
-                </GroupBox>
-
-            </StackPanel>
-        </ScrollViewer>
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Generate All" Click="Generate_Click" Padding="15,5" Margin="0,0,10,0" FontWeight="Bold"/>
+            <Button Content="Close" Click="Close_Click" Padding="15,5"/>
+        </StackPanel>
     </Grid>
 </Window>
